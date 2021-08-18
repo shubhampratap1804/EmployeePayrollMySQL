@@ -1,0 +1,74 @@
+mysql> create table Department (department varchar(150) not null, primary key (department));
+Query OK, 0 rows affected (2.26 sec)
+
+mysql> insert into Department (department) values
+    -> ('Sales'),('Marketing');
+Query OK, 2 rows affected (0.23 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from Department;
++------------+
+| department |
++------------+
+| Marketing  |
+| Sales      |
++------------+
+2 rows in set (0.00 sec)
+
+mysql> create table Employee (id int, companyid int, name varchar(150) not null, phonenumber bigint(12), address varchar(150) not null, gender char(1) not null, primary key(id));
+Query OK, 0 rows affected, 1 warning (1.54 sec)
+
+mysql> insert into Employee (id, companyid, name, phonenumber, address, gender) values
+    -> (1, 5, 'Kartik', 8989156503, 'Nagpur', 'M'),
+    -> (2, 6, 'Suresh', 8798456237, 'Satara', 'M'),
+    -> (3, 7, 'Neha', 7854689847, 'Pune', 'F');
+Query OK, 3 rows affected (0.67 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from Employee;
++----+-----------+--------+-------------+---------+--------+
+| id | companyid | name   | phonenumber | address | gender |
++----+-----------+--------+-------------+---------+--------+
+|  1 |         5 | Kartik |  8989156503 | Nagpur  | M      |
+|  2 |         6 | Suresh |  8798456237 | Satara  | M      |
+|  3 |         7 | Neha   |  7854689847 | Pune    | F      |
++----+-----------+--------+-------------+---------+--------+
+3 rows in set (0.00 sec)
+
+mysql> create table Company (compid int, name varchar(150) not null, foreign key(compid) references Employee(id),
+    -> foreign key (name) references Department (department), primary key(compid, name));
+Query OK, 0 rows affected (3.00 sec)
+
+mysql> describe ^Cpany;
+mysql> describe Company;
++--------+--------------+------+-----+---------+-------+
+| Field  | Type         | Null | Key | Default | Extra |
++--------+--------------+------+-----+---------+-------+
+| compid | int          | NO   | PRI | NULL    |       |
+| name   | varchar(150) | NO   | PRI | NULL    |       |
++--------+--------------+------+-----+---------+-------+
+2 rows in set (0.08 sec)
+
+mysql> desc Company;
++--------+--------------+------+-----+---------+-------+
+| Field  | Type         | Null | Key | Default | Extra |
++--------+--------------+------+-----+---------+-------+
+| compid | int          | NO   | PRI | NULL    |       |
+| name   | varchar(150) | NO   | PRI | NULL    |       |
++--------+--------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> insert into Company (compid, name) values (1, 'Marketing');
+Query OK, 1 row affected (0.11 sec)
+
+mysql> insert into Company (compid, name) values (1, 'Sales');
+Query OK, 1 row affected (0.15 sec)
+
+mysql> select * from Company;
++--------+-----------+
+| compid | name      |
++--------+-----------+
+|      1 | Marketing |
+|      1 | Sales     |
++--------+-----------+
+2 rows in set (0.00 sec)
